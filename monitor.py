@@ -15,18 +15,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """Periodically scrape the B12 website and extract the free slots"""
 
+import argparse
 from datetime import datetime, time
 import re
 from time import sleep
 
 from requests_html import HTMLSession
 
+from gyms import GYMS
 
-def render() -> str:
+
+def render(gym_url) -> str:
     """Retrieve, render and return the complete html of the B12 website"""
     with HTMLSession() as session:
-        b12_url = 'http://b12-tuebingen.de/'
-        resp = session.get(b12_url)
+        resp = session.get(gym_url)
 
         # Run JavaScript code on webpage
         resp.html.render()
@@ -36,25 +38,19 @@ def render() -> str:
         return html
 
 
-def extract_free_slots(html: str) -> int:
+def extract_free_slots(html: str, gym_re) -> int:
     """Extract the free slots from the B12 website's html"""
-    trafficlight_text_re = re.compile(
-        r'<div class="status_text">(\d*) freie Plätze\s*</div>')
-    match = trafficlight_text_re.search(html)
+    free_slots_re = re.compile(gym_re)
+    match = free_slots_re.search(html)
     if not match:
-        raise RuntimeError('Could not find the traffic light status text')
+        raise RuntimeError('Could not find the free slots')
     return int(match.group(1))
 
 
-def is_b12_open(now: datetime) -> bool:
-    """Check if the B12 is open"""
-    opening_hours_str = (('09:30', '23:00'), ('09:30', '23:00'),
-                         ('08:30', '23:00'), ('12:30', '23:00'),
-                         ('09:30', '23:00'), ('10:00', '22:00'), ('10:00',
-                                                                  '21:30'))
-
+def is_gym_open(gym_opening_hours, now: datetime) -> bool:
+    """Check if the gym is open"""
     opening_hours = [[time.fromisoformat(t) for t in oh]
-                     for oh in opening_hours_str]
+                     for oh in gym_opening_hours]
 
     weekday = now.weekday()
     hours_today = opening_hours[weekday]
@@ -64,19 +60,31 @@ def is_b12_open(now: datetime) -> bool:
     return hours_today[0] <= time_now <= hours_today[1]
 
 
-def print_free_slots():
-    """Print the current time and the free slots if the B12 is actually open"""
+def print_free_slots(gym_name: str):
+    """Print the current time and the free slots in the gym if it is actually open"""
+    gym = GYMS[gym_name]
+
     now = datetime.now()
-    if not is_b12_open(now):
+    if not is_gym_open(gym['opening_hours'], now):
         return
 
-    html = render()
-    free_slots = extract_free_slots(html)
+    html = render(gym['url'])
+    free_slots = extract_free_slots(html, gym['re'])
     print(f'{now.isoformat()}, {free_slots}')
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i',
+                        '--interval',
+                        default=60 * 5,
+                        help='time interval between extraction runs')
+    parser.add_argument('-g',
+                        '--gym',
+                        default='B12',
+                        help='Gym to monitor free slots')
+    args = parser.parse_args()
+
     while True:
-        print_free_slots()
-        # sleep 5 min
-        sleep(60 * 5)
+        print_free_slots(args.gym)
+        sleep(args.interval)
