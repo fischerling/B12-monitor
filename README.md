@@ -1,4 +1,6 @@
-# B12 Monitor - collect and visualize the free slot of B12 climbing gym
+# B12 Monitor
+
+Collect and visualize the free slot of B12 climbing gym.
 
 ## Requirements
 
