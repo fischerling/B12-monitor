@@ -24,17 +24,16 @@ from requests_html import HTMLSession
 
 def render() -> str:
     """Retrieve, render and return the complete html of the B12 website"""
-    session = HTMLSession()
+    with HTMLSession() as session:
+        b12_url = 'http://b12-tuebingen.de/'
+        resp = session.get(b12_url)
 
-    b12_url = 'http://b12-tuebingen.de/'
-    resp = session.get(b12_url)
+        # Run JavaScript code on webpage
+        resp.html.render()
+        html = resp.html.html
+        resp.close()
 
-    # Run JavaScript code on webpage
-    resp.html.render()
-    html = resp.html.html
-    resp.close()
-
-    return html
+        return html
 
 
 def extract_free_slots(html: str) -> int:
