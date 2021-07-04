@@ -149,7 +149,7 @@ def plot(data_path: str, outfile: Optional[str]):
     ])
     cmap.set_bad(color='grey')
 
-    axis.imshow(free_slots, cmap=cmap)
+    axis.imshow(free_slots, cmap=cmap, aspect='auto')
 
     axis.set_xticks(np.arange(len(WEEKDAYS)))
     axis.set_xticklabels(WEEKDAYS)
