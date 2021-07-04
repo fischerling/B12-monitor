@@ -62,7 +62,7 @@ def is_b12_open(now: datetime) -> bool:
 
     time_now = now.time()
 
-    return hours_today[0] >= time_now <= hours_today[1]
+    return hours_today[0] <= time_now <= hours_today[1]
 
 
 def print_free_slots():
