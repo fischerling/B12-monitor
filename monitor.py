@@ -29,7 +29,7 @@ def get_html_js(gym_url) -> str:
     To execute the javascript of the website pyppeteer is used a headless chromium instance.
     """
 
-    from requests_html import HTMLSession
+    from requests_html import HTMLSession  # pylint: disable=import-outside-toplevel
 
     with HTMLSession() as session:
         resp = session.get(gym_url)
@@ -44,7 +44,7 @@ def get_html_js(gym_url) -> str:
 
 def get_html_nojs(gym_url) -> str:
     """Retrieve the html of the gym's website using requests"""
-    import requests
+    import requests  # pylint: disable=import-outside-toplevel
 
     res = requests.get(gym_url)
     res.raise_for_status()
