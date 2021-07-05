@@ -17,9 +17,11 @@
 GYMS = {
     'B12': {
         'url':
-        'http://b12-tuebingen.de/',
+        'https://111.webclimber.de/de/trafficlight?callback=WebclimberTrafficlight.insertTrafficlight&key=184xNhv6RRU7H2gVg8QFyHCYxym8DKve&hid=111&container=trafficlightContainer&type=&area=',
+        'needs_js':
+        False,
         're':
-        r'<div class="status_text">(\d+) freie Plätze\s*</div>',
+        r"<div class='status_text'>(\d+) freie Pl.*</div>",
         'opening_hours':
         (('09:30', '23:00'), ('09:30', '23:00'), ('08:30', '23:00'),
          ('12:30', '23:00'), ('09:30', '23:00'), ('10:00', '22:00'), ('10:00',
@@ -28,6 +30,8 @@ GYMS = {
     'BergWeltErlangen': {
         'url':
         'https://www.boulderado.de/boulderadoweb/gym-clientcounter/index.php?mode=get&token=eyJhbGciOiJIUzI1NiIsICJ0eXAiOiJKV1QifQ.eyJjdXN0b21lciI6IkRBVkVybGFuZ2VuMjMyMDIwIn0.Fr3KR0obdp_aYzCIclQTMZr0dVIxT0bfyUVODU_u64M',
+        'needs_js':
+        False,
         're':
         r'<div class="freecounter-content"><span data-value="\d+">(\d+)</span></div>',
         'opening_hours':

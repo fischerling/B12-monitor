@@ -20,13 +20,17 @@ from datetime import datetime, time
 import re
 from time import sleep
 
-from requests_html import HTMLSession
-
 from gyms import GYMS
 
 
-def render(gym_url) -> str:
-    """Retrieve, render and return the complete html of the B12 website"""
+def get_html_js(gym_url) -> str:
+    """Retrieve, execute js, render oand return the html of the gym's website
+
+    To execute the javascript of the website pyppeteer is used a headless chromium instance.
+    """
+
+    from requests_html import HTMLSession
+
     with HTMLSession() as session:
         resp = session.get(gym_url)
 
@@ -36,6 +40,25 @@ def render(gym_url) -> str:
         resp.close()
 
         return html
+
+
+def get_html_nojs(gym_url) -> str:
+    """Retrieve the html of the gym's website using requests"""
+    import requests
+
+    res = requests.get(gym_url)
+    res.raise_for_status()
+
+    return res.text
+
+
+def get_html(gym_url, needs_js=False) -> str:
+    """Retrieve the html of the gym's website"""
+
+    if needs_js:
+        return get_html_js(gym_url)
+
+    return get_html_nojs(gym_url)
 
 
 def extract_free_slots(html: str, gym_re) -> int:
@@ -68,7 +91,7 @@ def print_free_slots(gym_name: str):
     if not is_gym_open(gym['opening_hours'], now):
         return
 
-    html = render(gym['url'])
+    html = get_html(gym['url'])
     free_slots = extract_free_slots(html, gym['re'])
     print(f'{now.isoformat()}, {free_slots}')
 

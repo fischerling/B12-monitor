@@ -8,11 +8,13 @@ requests-html = "*"
 beautifulsoup4 = "*"
 numpy = "*"
 matplotlib = "*"
+requests = "*"
 
 [dev-packages]
 pylint = "*"
 yapf = "*"
 mypy = "*"
+types-requests = "*"
 
 [requires]
 python_version = "3.9"

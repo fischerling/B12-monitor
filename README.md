@@ -5,9 +5,10 @@ Collect and visualize the free slot of B12 climbing gym.
 ## Requirements
 
 * python3
-* requests_html
 * matplotlib
 * numpy
+* [requests] if no javascript is needed
+* [requests_html] if javascript is needed
 
 ## Usage
 
