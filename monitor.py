@@ -72,8 +72,7 @@ def extract_free_slots(html: str, gym_re) -> int:
 
 def is_gym_open(gym_opening_hours, now: datetime) -> bool:
     """Check if the gym is open"""
-    opening_hours = [[time.fromisoformat(t) for t in oh]
-                     for oh in gym_opening_hours]
+    opening_hours = [[time.fromisoformat(t) for t in oh] for oh in gym_opening_hours]
 
     weekday = now.weekday()
     hours_today = opening_hours[weekday]
@@ -102,10 +101,7 @@ if __name__ == '__main__':
                         '--interval',
                         default=60 * 5,
                         help='time interval between extraction runs')
-    parser.add_argument('-g',
-                        '--gym',
-                        default='B12',
-                        help='Gym to monitor free slots')
+    parser.add_argument('-g', '--gym', default='B12', help='Gym to monitor free slots')
     args = parser.parse_args()
 
     while True:
