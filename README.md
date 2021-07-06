@@ -33,11 +33,11 @@ as the opening hours.
 
 ### B12
 
-![B12 heatmap](https://muhq.space/B12.png)
+<img src="https://muhq.space/B12.png" alt="B12 heatmap"/>
 
 ### DAV Bergwelt Erlangen
 
-![Bergwelt heatmap](https://muhq.space/BergWeltErlangen.png)
+<img src="https://muhq.space/BergWeltErlangen.png" alt="Bergwelt heatmap"/>
 
 ## License
 
