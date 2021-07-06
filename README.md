@@ -31,13 +31,7 @@ as the opening hours.
 
 ## Collected Data
 
-### B12
-
-<img src="https://muhq.space/B12.png" alt="B12 heatmap"/>
-
-### DAV Bergwelt Erlangen
-
-<img src="https://muhq.space/BergWeltErlangen.png" alt="Bergwelt heatmap"/>
+Plots of the two gyms I am monitoring can be found at [muhq.space/gym-heatmap.html](https://muhq.space/gym-heatmap.html).
 
 ## License
 
