@@ -29,6 +29,16 @@ A gym configuration consists of the url were they show their currently available
 free slots, a regex how to extract the free slots from the retrieved html as well
 as the opening hours.
 
+## Collected Data
+
+### B12
+
+![B12 heatmap](https://muhq.space/B12.png)
+
+### DAV Bergwelt Erlangen
+
+![Bergwelt heatmap](https://muhq.space/BergWeltErlangen.png)
+
 ## License
 
 This program is free software: you can redistribute it and/or modify
