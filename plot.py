@@ -136,7 +136,7 @@ def plot(data_path: str, outfile: Optional[str]):
     fig, axis = plt.subplots()
 
     cmap = matplotlib.colors.ListedColormap(
-        ['darkred', 'red', 'darkorange', 'orange', 'yellow', 'lightgreen', 'green'])
+        ['darkred', 'red', 'darkorange', 'orange', 'olive', 'darkolivegreen', 'green'])
     cmap.set_bad(color='grey')
 
     axis.imshow(free_slots, cmap=cmap, aspect='auto')
