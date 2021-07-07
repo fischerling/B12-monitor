@@ -12,9 +12,19 @@ Collect and visualize the free slot of B12 climbing gym.
 
 ## Usage
 
-To periodically collect the free slots from the B12 website and store them in a file run:
+To collect the free slots from the B12 website and store them in a file run:
 
 `./monitor.py > free_slots.csv`
+
+To monitor the free slots over time use your shell:
+
+```bash
+while true
+do
+	./monitor.py
+	sleep 300 # sleep for 5 minutes
+done > free_slots.csv
+```
 
 To generate a heatmap in free\_slots.png using the collected data run:
 

@@ -18,7 +18,6 @@
 import argparse
 from datetime import datetime, time
 import re
-from time import sleep
 
 from gyms import GYMS
 
@@ -97,13 +96,7 @@ def print_free_slots(gym_name: str):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i',
-                        '--interval',
-                        default=60 * 5,
-                        help='time interval between extraction runs')
     parser.add_argument('-g', '--gym', default='B12', help='Gym to monitor free slots')
     args = parser.parse_args()
 
-    while True:
-        print_free_slots(args.gym)
-        sleep(args.interval)
+    print_free_slots(args.gym)
