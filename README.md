@@ -43,6 +43,10 @@ as the opening hours.
 
 Plots of the two gyms I am monitoring can be found at [muhq.space/gym-heatmap.html](https://muhq.space/gym-heatmap.html).
 
+## Similar projects
+
+[B12 data mining](https://github.com/jnsbck/B12_data_mining) by Jonas Beck
+
 ## License
 
 This program is free software: you can redistribute it and/or modify
