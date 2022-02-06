@@ -33,7 +33,7 @@ To generate a heatmap in free\_slots.png using the collected data run:
 ## Supported gyms
 
 The current default gym is the B12 in Tuebingen because this is the gym I am
-the most interested in but the DAV Bergwelt in Erlangen is supported to.
+the most interested in but the DAV Bergwelt and Steinbock in Erlangen are supported to.
 Available gyms are defined in `gyms.py`.
 A gym configuration consists of the url were they show their currently available
 free slots, a regex how to extract the free slots from the retrieved html as well
