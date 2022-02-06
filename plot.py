@@ -100,7 +100,7 @@ def prepare_heatmap(data_path: str, intervals: List[Tuple[time, time]]) -> List[
     M: weekdays
     """
 
-    with open(data_path, 'r') as data_file:
+    with open(data_path, 'r', encoding='utf-8') as data_file:
         reader = csv.reader(data_file, delimiter=',')
         data = list(reader)
 
