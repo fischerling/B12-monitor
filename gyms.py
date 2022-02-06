@@ -34,5 +34,15 @@ GYMS = {
         'opening_hours': (
             ('10:30', '22:00'), ('10:30', '22:00'), ('10:30', '22:00'), ('10:30', '22:00'),
             ('10:30', '22:00'), ('09:00', '20:00'), ('09:00', '20:00'))
-    }
+    },
+    'SteinBockErlangen': {
+        'url': ('https://www.boulderado.de/boulderadoweb/gym-clientcounter/index.php?mode=get&'
+                'token=eyJhbGciOiJIUzI1NiIsICJ0eXAiOiJKV1QifQ.eyJjdXN0b21lciI6IlN0ZWluYm9ja0Vyb'
+                'GFuZ2VuMzkyMDIxIn0.jchq4dpdvDPMWYXUEFRdeBCctqEJoIUIiC_6jvxFmSo'),
+        'needs_js': False,
+        're': r'<div class="freecounter-content"><span data-value="\d+">(\d+)</span></div>',
+        'opening_hours': (
+            ('09:00', '23:00'), ('09:00', '23:00'), ('09:00', '23:00'), ('09:00', '23:00'),
+            ('09:00', '23:00'), ('09:00', '22:00'), ('09:00', '22:00'))
+    },
 }
