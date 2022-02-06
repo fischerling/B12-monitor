@@ -38,8 +38,8 @@ class RunningAverage:
 
     def __add__(self, i: float):
         """Add a value to the running average"""
-        self.average += (i - self.average) / (self.number + 1)
         self.number += 1
+        self.average += (i - self.average) / self.number
         return self
 
     def get_avg(self) -> float:
