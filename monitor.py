@@ -89,9 +89,10 @@ def print_free_slots(gym_name: str):
     if not is_gym_open(gym['opening_hours'], now):
         return
 
-    html = get_html(gym['url'])
+    html = get_html(gym['url'], needs_js=gym.get('needs_js', False))
     free_slots = extract_free_slots(html, gym['re'])
-    print(f'{now.isoformat()}, {free_slots}')
+    data_suffix = '%' if 'percentage' in gym else ''
+    print(f'{now.isoformat()}, {free_slots}{data_suffix}')
 
 
 if __name__ == '__main__':

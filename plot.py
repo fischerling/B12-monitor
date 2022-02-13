@@ -21,6 +21,7 @@ from datetime import datetime, date, time, timedelta
 import math
 from pathlib import Path
 from typing import List, Tuple, Optional
+import sys
 
 import numpy as np
 import matplotlib
@@ -64,11 +65,9 @@ def __add_minutes_to_time(start_time: time, minutes: int) -> time:
 
 WEEKDAYS = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
-OPENING_HOURS = (('09:30', '23:00'), ('09:30', '23:00'), ('08:30', '23:00'), ('12:30', '23:00'),
-                 ('09:30', '23:00'), ('10:00', '22:00'), ('10:00', '21:30'))
-
 PLOT_DURATION = (time.fromisoformat('09:30'), time.fromisoformat('23:00'))
 SLOT_DURATION = timedelta(minutes=30)
+Slot = Tuple[time, time]
 
 
 def calc_interval(time_point: time) -> int:
@@ -79,7 +78,7 @@ def calc_interval(time_point: time) -> int:
     return slot_idx
 
 
-def generate_slots() -> Tuple[List[Tuple[time, time]], List[str]]:
+def generate_slots() -> Tuple[List[Slot], List[str]]:
     """generate relevant time slots and y-ticks"""
     slots = []
     y_labels = []
@@ -93,7 +92,10 @@ def generate_slots() -> Tuple[List[Tuple[time, time]], List[str]]:
     return slots, y_labels
 
 
-def prepare_heatmap(data_path: str, intervals: List[Tuple[time, time]]) -> List[List[float]]:
+Map = List[List[float]]
+
+
+def prepare_heatmap(data_path: str, intervals: List[Slot]) -> Optional[Tuple[Map, bool]]:
     """parse csv data into a N,M matrix containing the average free slots in each interval
 
     N: slots
@@ -104,6 +106,12 @@ def prepare_heatmap(data_path: str, intervals: List[Tuple[time, time]]) -> List[
         reader = csv.reader(data_file, delimiter=',')
         data = list(reader)
 
+    if not data:
+        return None
+
+    # Is the data given in percent?
+    percentage = data[0][1].endswith('%')
+
     # prepare the heat map data
     # x-axis are our weekdays
     # y-axis are 30 min time intervals
@@ -113,7 +121,14 @@ def prepare_heatmap(data_path: str, intervals: List[Tuple[time, time]]) -> List[
 
     for data_point in data:
         time_point = datetime.fromisoformat(data_point[0])
-        free_slots = float(data_point[1])
+
+        if not percentage:
+            # data are absolute free slots
+            free_slots = float(data_point[1])
+        else:
+            # data is load in percentage
+            # flip it to get free slots in percentage
+            free_slots = 100 - float(data_point[1][:-1])
 
         weekday = time_point.weekday()
 
@@ -123,7 +138,8 @@ def prepare_heatmap(data_path: str, intervals: List[Tuple[time, time]]) -> List[
 
         interval_avg += free_slots
 
-    return [[float(avg) for avg in weekday] for weekday in avgs]
+    vals = [[float(avg) for avg in weekday] for weekday in avgs]
+    return vals, percentage
 
 
 def plot(data_path: str, outfile: Optional[str]):
@@ -131,7 +147,10 @@ def plot(data_path: str, outfile: Optional[str]):
 
     slots, y_labels = generate_slots()
 
-    free_slots = prepare_heatmap(data_path, slots)
+    free_slots, percentage = prepare_heatmap(data_path, slots)
+    if not free_slots:
+        print(f'no data found in {data_path}', file=sys.stderr)
+        sys.exit(1)
 
     fig, axis = plt.subplots()
 
@@ -149,12 +168,13 @@ def plot(data_path: str, outfile: Optional[str]):
     axis.set_yticklabels(y_labels)
 
     # Add free slots text
+    data_suffix = '%' if percentage else ''
     for i in range(len(slots)):
         for j in range(len(WEEKDAYS)):
             data_point = free_slots[i][j]
             if math.isnan(data_point):
                 continue
-            axis.text(j, i, int(data_point), ha="center", va="center", color="w")
+            axis.text(j, i, f'{int(data_point)}{data_suffix}', ha="center", va="center", color="w")
 
     axis.set_title("Free slots over time")
 
