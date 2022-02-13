@@ -1,6 +1,6 @@
 # B12 Monitor
 
-Collect and visualize the free slot of B12 climbing gym.
+Collect and visualize the free slot of B12 and other climbing gym.
 
 ## Requirements
 
@@ -26,22 +26,30 @@ do
 done > free_slots.csv
 ```
 
-To generate a heatmap in free\_slots.png using the collected data run:
+To generate a heatmap in `free\_slots.png` from the collected data run:
 
 `./plot.py free_slots.csv`
 
 ## Supported gyms
 
 The current default gym is the B12 in Tuebingen because this is the gym I am
-the most interested in but the DAV Bergwelt and Steinbock in Erlangen are supported to.
+the most interested in.
+But some other gyms are supported too.
 Available gyms are defined in `gyms.py`.
+Included Configurations:
+* B12 (Tuebingen)
+* Steinbock (Erlangen)
+* DAV Bergwelt (Erlangen)
+* Boulderwelt Ost (Muenchen)
+
 A gym configuration consists of the url were they show their currently available
 free slots, a regex how to extract the free slots from the retrieved html as well
 as the opening hours.
 
 ## Collected Data
 
-Plots of the two gyms I am monitoring can be found at [muhq.space/gym-heatmap.html](https://muhq.space/gym-heatmap.html).
+Plots of the all gyms I am monitoring can be found at:
+[muhq.space/gym-heatmap.html](https://muhq.space/gym-heatmap.html).
 
 ## Similar projects
 
