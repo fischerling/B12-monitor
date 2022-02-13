@@ -78,7 +78,7 @@ def is_gym_open(gym_opening_hours, now: datetime) -> bool:
 
     time_now = now.time()
 
-    return hours_today[0] <= time_now <= hours_today[1]
+    return hours_today[0] <= time_now < hours_today[1]
 
 
 def print_free_slots(gym_name: str):
