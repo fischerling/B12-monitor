@@ -1,0 +1,23 @@
+image: "python:3.10"
+
+before_script:
+  - python --version
+  - pip install -r requirements.txt
+
+stages:
+  - Static Analysis
+
+pylint:
+  stage: Static Analysis
+  script:
+    - make check-pylint
+
+format:
+  stage: Static Analysis
+  script:
+    - make check-format
+
+mypy:
+  stage: Static Analysis
+  script:
+    - make check-mypy
