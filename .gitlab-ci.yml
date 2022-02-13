@@ -2,7 +2,8 @@ image: "python:3.10"
 
 before_script:
   - python --version
-  - pip install -r requirements.txt
+  - pip install --no-cache-dir pipenv
+  - pipenv install --dev
 
 stages:
   - Static Analysis
@@ -10,14 +11,14 @@ stages:
 pylint:
   stage: Static Analysis
   script:
-    - make check-pylint
+    - pipenv run make check-pylint
 
 format:
   stage: Static Analysis
   script:
-    - make check-format
+    - pipenv run make check-format
 
 mypy:
   stage: Static Analysis
   script:
-    - make check-mypy
+    - pipenv run make check-mypy
