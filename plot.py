@@ -65,7 +65,7 @@ def __add_minutes_to_time(start_time: time, minutes: int) -> time:
 
 WEEKDAYS = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
-PLOT_DURATION = (time.fromisoformat('09:30'), time.fromisoformat('23:00'))
+PLOT_DURATION = (time.fromisoformat('07:00'), time.fromisoformat('23:00'))
 SLOT_DURATION = timedelta(minutes=30)
 Slot = Tuple[time, time]
 
