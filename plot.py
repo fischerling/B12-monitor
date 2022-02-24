@@ -112,6 +112,20 @@ def load_data(data_path: str) -> Optional[Tuple[Data, bool]]:
     return res, percentage
 
 
+def count_days_in_data(data: Data) -> int:
+    """count and return the days in data
+
+    Note: ths function expects data to be sorted.
+    """
+    days = 1
+    cur_day = data[0][0].date()
+    for time_point, _ in data:
+        if time_point.date() > cur_day:
+            days += 1
+            cur_day = time_point.date()
+    return days
+
+
 def generate_slots(data: Data) -> Tuple[List[Slot], List[str]]:
     """generate relevant time slots and y-ticks"""
 
@@ -205,7 +219,8 @@ def plot(data_path: str, outfile: Optional[str]):
                 continue
             axis.text(j, i, f'{int(data_point)}{data_suffix}', ha="center", va="center", color="w")
 
-    axis.set_title("Free slots over time")
+    days = count_days_in_data(data)
+    axis.set_title(f'Free slots over time (data of {days} days)')
 
     out = outfile or Path(data_path).with_suffix('.png')
     fig.savefig(out, bbox_inches='tight')
