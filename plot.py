@@ -183,13 +183,20 @@ def prepare_heatmap(data: Data, intervals: List[Slot]) -> Map:
     return [[float(avg) for avg in weekday] for weekday in avgs]
 
 
-def plot(data_path: str, outfile: Optional[str]):
+def plot(data_path: str, time_range: Optional[timedelta], outfile: Optional[str]):
     """plot a heat map containing the free slots scraped from the b12 website"""
 
     data, percentage = load_data(data_path) or (None, None)
     if not data:
         print(f'no data found in {data_path}', file=sys.stderr)
         sys.exit(1)
+
+    if time_range:
+        deadline = datetime.now() - time_range
+        data = [data_point for data_point in data if data_point[0] >= deadline]
+        if not data:
+            print(f'no data newer than {deadline}', file=sys.stderr)
+            sys.exit(0)
 
     slots, y_labels = generate_slots(data)
 
@@ -226,10 +233,24 @@ def plot(data_path: str, outfile: Optional[str]):
     fig.savefig(out, bbox_inches='tight')
 
 
-if __name__ == '__main__':
+def main():
+    """Main programm entry point"""
     parser = argparse.ArgumentParser()
     parser.add_argument('data_file', help='csv input file')
     parser.add_argument('-o', '--outfile', nargs='?', const=None, help='output file')
+    parser.add_argument('-w',
+                        '--last-week',
+                        action='store_true',
+                        help='use only data of the last week')
 
     args = parser.parse_args()
-    plot(args.data_file, args.outfile)
+
+    time_range = None
+    if args.last_week:
+        time_range = timedelta(weeks=1)
+
+    plot(args.data_file, time_range, args.outfile)
+
+
+if __name__ == '__main__':
+    main()
